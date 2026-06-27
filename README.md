@@ -6,7 +6,7 @@ diagonal aurora light beams, and a lone human silhouette beneath a burning sky.
 
 ## Stack
 
-- **Next.js 14** (App Router) + **TypeScript**
+- **Next.js 16** (App Router) + **TypeScript** — _started on 14 per spec; bumped to 16 to clear all npm-audit advisories (see Security below)_
 - **React Three Fiber** + **Drei** — WebGL scene
 - **GSAP** + **ScrollTrigger** + **Lenis** — scroll-driven camera
 - **Framer Motion** — UI animation only
@@ -59,6 +59,17 @@ npm install
 npm run dev      # http://localhost:3000
 npm run build    # production build
 ```
+
+## Security
+
+`npm audit` reports **0 vulnerabilities**. Getting there required:
+
+- **Next.js → 16.2.9** — clears the high-severity Next.js advisories (DoS,
+  cache poisoning, SSRF, XSS) present in the 14.x line. Next 16 still supports
+  React 18, so no React 19 / R3F v9 cascade was needed.
+- **`overrides: { "postcss": "^8.5.15" }`** — Next bundles an older `postcss`
+  internally; this pins it to the patched line to clear the remaining moderate
+  CSS-stringify XSS advisory.
 
 ## Project structure
 
