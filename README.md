@@ -6,8 +6,8 @@ diagonal aurora light beams, and a lone human silhouette beneath a burning sky.
 
 ## Stack
 
-- **Next.js 16** (App Router) + **TypeScript** — _started on 14 per spec; bumped to 16 to clear all npm-audit advisories (see Security below)_
-- **React Three Fiber** + **Drei** — WebGL scene
+- **Next.js 16** (App Router) + **React 19** + **TypeScript** — _started on Next 14 / React 18 per spec; bumped for security (see Security below)_
+- **React Three Fiber 9** + **Drei 10** — WebGL scene
 - **GSAP** + **ScrollTrigger** + **Lenis** — scroll-driven camera
 - **Framer Motion** — UI animation only
 - **Tailwind CSS** — UI styling only
@@ -65,8 +65,13 @@ npm run build    # production build
 `npm audit` reports **0 vulnerabilities**. Getting there required:
 
 - **Next.js → 16.2.9** — clears the high-severity Next.js advisories (DoS,
-  cache poisoning, SSRF, XSS) present in the 14.x line. Next 16 still supports
-  React 18, so no React 19 / R3F v9 cascade was needed.
+  cache poisoning, SSRF, XSS) present in the 14.x line.
+- **React → 19 + R3F 9 / Drei 10 / postprocessing 3** — Next 16's App Router
+  runs on React 19, and `@react-three/fiber` v8 crashes at runtime under React
+  19 (`ReactCurrentOwner` was removed). The whole 3D stack was upgraded to its
+  React 19-compatible majors. _Note: the production build passes either way —
+  the v8 crash only surfaces in the browser, so this was caught by rendering
+  the running app headlessly, not by `next build`._
 - **`overrides: { "postcss": "^8.5.15" }`** — Next bundles an older `postcss`
   internally; this pins it to the patched line to clear the remaining moderate
   CSS-stringify XSS advisory.
